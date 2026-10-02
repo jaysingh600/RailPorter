@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy: #0B192C;
+  --color-brand-blue: #1A365D;
+  --color-brand-accent: #2563EB;
+  --color-rail-red: #E11D48;
+  --color-rail-orange: #F97316;
+  --color-rail-green: #10B981;
+  --color-surface-light: #F8FAFC;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
+
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+  --shadow-glow: 0 0 15px rgba(225, 29, 72, 0.4);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-fade-in: fadeIn 0.3s ease-out;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-[#F8FAFC] text-gray-900 font-sans antialiased overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-[#0B192C] to-[#1A365D] text-white px-6 py-2.5 rounded-lg font-medium hover:shadow-lg hover:shadow-blue-900/20 transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#1A365D] focus:ring-offset-2;
+  }
+  .btn-secondary {
+    @apply bg-white border-2 border-gray-200 text-gray-700 px-6 py-2.5 rounded-lg font-medium hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2;
+  }
+  .btn-danger {
+    @apply bg-gradient-to-r from-[#E11D48] to-rose-600 text-white px-6 py-2.5 rounded-lg font-medium hover:shadow-glow transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2;
+  }
+  .btn-success {
+    @apply bg-gradient-to-r from-[#10B981] to-emerald-500 text-white px-6 py-2.5 rounded-lg font-medium hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-soft border border-gray-100 p-6 transition-all duration-300 hover:shadow-glass;
+  }
+  .input-field {
+    @apply mt-1 block w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 focus:outline-none transition-all duration-200;
+  }
+  .label-text {
+    @apply block text-sm font-semibold text-gray-700 mb-1.5;
+  }
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-glass rounded-2xl;
+  }
+}
