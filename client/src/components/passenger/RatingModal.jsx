@@ -75,7 +75,7 @@ const RatingModal = ({ booking, onClose, onSuccess }) => {
           <div className="mb-6">
             <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Add a comment (Optional)</label>
             <textarea
-              className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none resize-none bg-white shadow-inner"
+              className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none resize-none bg-white shadow-inner"
               rows="3"
               placeholder="Tell us what you liked..."
               value={comment}
@@ -87,7 +87,7 @@ const RatingModal = ({ booking, onClose, onSuccess }) => {
           <button 
             type="submit" 
             disabled={isSubmitting || rating === 0}
-            className={`w-full py-4 rounded-xl font-bold text-white transition-all shadow-md ${rating > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-300 cursor-not-allowed'}`}
+            className={`w-full py-4 rounded-xl font-bold text-white transition-all shadow-md ${rating > 0 ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-300 cursor-not-allowed'}`}
           >
             {isSubmitting ? 'Submitting...' : 'Submit Review'}
           </button>

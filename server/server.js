@@ -58,7 +58,6 @@ app.use('/api/analytics', require('./routes/analyticsRoutes'));
 
 // Custom Error Handler
 app.use(errorHandler);
-
 // Health Check route
 app.get('/api/health', (req, res) => {
   res.status(200).json({
@@ -67,7 +66,6 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
-
 // Basic route
 app.get('/', (req, res) => {
   res.send('RAILPORTER API is running...');

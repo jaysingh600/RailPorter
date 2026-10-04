@@ -16,8 +16,8 @@ const PassengerHelpTab = () => {
 
       {/* Quick Support Blocks */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 hover:bg-blue-100 transition-colors cursor-pointer flex flex-col items-center text-center">
-          <LifeBuoy size={28} className="text-blue-600 mb-3" />
+        <div className="bg-red-50 border border-red-100 rounded-xl p-5 hover:bg-red-100 transition-colors cursor-pointer flex flex-col items-center text-center">
+          <LifeBuoy size={28} className="text-red-600 mb-3" />
           <h3 className="font-bold text-gray-900 text-sm">Contact Us</h3>
           <p className="text-[10px] text-gray-500 mt-1">24/7 Chat Support</p>
         </div>

@@ -2,19 +2,24 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Clock, Star } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
+import railwayBg from '../../assets/railway_bg.jpg';
 
 const Hero = () => {
   const { user } = useContext(AuthContext);
   const findPorterRoute = (user && user.role === 'passenger') ? '/passenger/find-porter' : '/login';
 
   return (
-    <section className="relative bg-brand-navy text-white pt-40 pb-48 px-4 overflow-hidden">
-      {/* Premium Background Gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-brand-navy via-[#112240] to-brand-navy"></div>
+    <section 
+      className="relative text-white pt-40 pb-48 px-4 overflow-hidden bg-cover bg-center bg-fixed"
+      style={{ backgroundImage: `url(${railwayBg})` }}
+    >
+      {/* Premium Background Overlay */}
+      <div className="absolute inset-0 bg-brand-navy/40"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/30 via-transparent to-brand-navy/80"></div>
       
       {/* Decorative Blur Orbs */}
-      <div className="absolute top-20 left-1/4 w-96 h-96 bg-rail-red/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
-      <div className="absolute bottom-10 right-1/4 w-[30rem] h-[30rem] bg-brand-accent/20 rounded-full blur-[120px] pointer-events-none animation-delay-2000"></div>
+      <div className="absolute top-20 left-1/4 w-96 h-96 bg-rail-red/30 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
+      <div className="absolute bottom-10 right-1/4 w-[30rem] h-[30rem] bg-brand-accent/30 rounded-full blur-[120px] pointer-events-none animation-delay-2000"></div>
       
       <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ffffff 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
       

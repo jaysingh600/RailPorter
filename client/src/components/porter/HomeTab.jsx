@@ -15,6 +15,8 @@ const HomeTab = () => {
   const [stats, setStats] = useState({ todaysJobs: 0, todayEarnings: 0, rating: 0 });
   const [watchId, setWatchId] = useState(null);
   const [activeEmergency, setActiveEmergency] = useState(null);
+  const [showOtpPrompt, setShowOtpPrompt] = useState(false);
+  const [otpInput, setOtpInput] = useState('');
   const requestsRef = useRef([]);
 
   // Keep ref in sync for socket callbacks
@@ -205,8 +207,16 @@ const HomeTab = () => {
 
   const updateActiveStatus = async (newStatus) => {
     try {
-      await api.put(`/bookings/${activeBooking._id}/status`, { status: newStatus });
+      const payload = { status: newStatus };
+      if (newStatus === 'LUGGAGE_PICKED') {
+        payload.otp = otpInput;
+      }
+      
+      await api.put(`/bookings/${activeBooking._id}/status`, payload);
       setActiveBooking({ ...activeBooking, status: newStatus });
+      
+      setShowOtpPrompt(false);
+      setOtpInput('');
       
       if (newStatus === 'COMPLETED') {
         stopLocationTracking();
@@ -216,7 +226,8 @@ const HomeTab = () => {
         toast.success('Job Completed successfully!');
       }
     } catch (error) {
-      toast.error('Failed to update status');
+      console.error(error);
+      toast.error(error.response?.data?.message || error.message || 'Failed to update status');
     }
   };
 
@@ -258,7 +269,7 @@ const HomeTab = () => {
         <div>
           <h2 className="text-xl font-bold text-gray-900">Hi, {user?.name?.split(' ')[0] || 'Porter'} 👋</h2>
           <div className="text-xs text-gray-500 flex items-center mt-1">
-            <span className={`w-2 h-2 rounded-full mr-1 ${watchId ? 'bg-blue-500 animate-pulse' : 'bg-gray-300'}`}></span>
+            <span className={`w-2 h-2 rounded-full mr-1 ${watchId ? 'bg-red-500 animate-pulse' : 'bg-gray-300'}`}></span>
             {watchId ? 'Location sharing active' : 'Location sharing off'}
           </div>
         </div>
@@ -304,7 +315,14 @@ const HomeTab = () => {
               <span className="text-xs font-bold uppercase text-[#38A169] tracking-wider">Active Job</span>
               <span className="text-xl font-bold text-[#38A169]">₹{activeBooking.fare?.estimatedTotal}</span>
             </div>
-            <h3 className="text-2xl font-bold mb-4">{activeBooking.passenger?.name}</h3>
+            <div className="mb-4">
+              <h3 className="text-2xl font-bold">{activeBooking.passenger?.name}</h3>
+              {activeBooking.passenger?.phone && (
+                <a href={`tel:${activeBooking.passenger.phone}`} className="text-[#38A169] inline-flex items-center mt-1 font-medium hover:underline bg-[#38A169]/10 px-2 py-1 rounded">
+                  📞 {activeBooking.passenger.phone}
+                </a>
+              )}
+            </div>
             
             <div className="grid grid-cols-2 gap-4 mb-6 text-sm bg-white/10 p-3 rounded-lg">
               <div>
@@ -332,13 +350,38 @@ const HomeTab = () => {
                 I'm at the Platform
               </button>
             )}
-            {activeBooking.status === 'REACHED_PLATFORM' && (
-              <button onClick={() => updateActiveStatus('LUGGAGE_PICKED')} className="w-full py-4 bg-yellow-500 text-yellow-900 font-bold rounded-xl text-lg hover:bg-yellow-400 shadow-md transition-colors">
+            {activeBooking.status === 'REACHED_PLATFORM' && !showOtpPrompt && (
+              <button onClick={() => setShowOtpPrompt(true)} className="w-full py-4 bg-yellow-500 text-yellow-900 font-bold rounded-xl text-lg hover:bg-yellow-400 shadow-md transition-colors">
                 Luggage Picked Up
               </button>
             )}
+            {activeBooking.status === 'REACHED_PLATFORM' && showOtpPrompt && (
+              <div className="bg-white p-4 rounded-xl shadow-inner mt-4">
+                <p className="text-[#0B192C] font-bold text-center mb-3">Ask passenger for Journey OTP</p>
+                <div className="flex gap-2">
+                  <input 
+                    type="text" 
+                    maxLength={4}
+                    value={otpInput}
+                    onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ''))}
+                    placeholder="Enter 4-digit PIN"
+                    className="flex-1 bg-gray-100 border-2 border-gray-300 rounded-lg text-center text-xl tracking-widest font-mono font-bold text-gray-900 py-3 outline-none focus:border-[#38A169]"
+                  />
+                  <button 
+                    onClick={() => updateActiveStatus('LUGGAGE_PICKED')}
+                    disabled={otpInput.length !== 4}
+                    className="bg-[#38A169] text-white font-bold px-6 rounded-lg disabled:opacity-50 hover:bg-green-600 transition"
+                  >
+                    Start
+                  </button>
+                </div>
+                <button onClick={() => setShowOtpPrompt(false)} className="w-full mt-3 text-sm text-gray-500 hover:text-gray-700 font-bold">
+                  Cancel
+                </button>
+              </div>
+            )}
             {activeBooking.status === 'LUGGAGE_PICKED' && (
-              <button onClick={() => updateActiveStatus('IN_TRANSIT')} className="w-full py-4 bg-blue-500 text-white font-bold rounded-xl text-lg hover:bg-blue-400 shadow-md transition-colors">
+              <button onClick={() => updateActiveStatus('IN_TRANSIT')} className="w-full py-4 bg-red-500 text-white font-bold rounded-xl text-lg hover:bg-red-400 shadow-md transition-colors">
                 In Transit to Drop
               </button>
             )}
@@ -380,8 +423,8 @@ const HomeTab = () => {
           ) : (
             <div className="space-y-4">
               {incomingRequests.map(req => (
-                <div key={req._id} className="bg-white rounded-xl shadow-lg border-2 border-blue-100 overflow-hidden transform transition-all hover:scale-[1.02]">
-                  <div className="bg-blue-50 p-4 border-b border-blue-100 flex justify-between items-center">
+                <div key={req._id} className="bg-white rounded-xl shadow-lg border-2 border-red-100 overflow-hidden transform transition-all hover:scale-[1.02]">
+                  <div className="bg-red-50 p-4 border-b border-red-100 flex justify-between items-center">
                     <div>
                       <span className="font-bold text-lg text-gray-900 block">{req.passenger?.name}</span>
                       {req.requestExpiresAt && <RequestCountdown expiresAt={req.requestExpiresAt} />}

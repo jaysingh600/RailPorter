@@ -48,6 +48,7 @@ exports.createBooking = async (req, res) => {
 
     // 4. Create Booking
     const requestExpiresAt = new Date(Date.now() + 2 * 60 * 1000); // 2 minutes from now
+    const otp = Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit OTP
 
     const booking = await Booking.create({
       passenger: req.user.id,
@@ -61,6 +62,7 @@ exports.createBooking = async (req, res) => {
       seatNumber,
       luggageDetails,
       fare,
+      otp,
       status: 'REQUESTED',
       requestExpiresAt
     });
@@ -324,7 +326,7 @@ exports.getPorterBookings = async (req, res) => {
 // @access  Private (Porter)
 exports.updateBookingStatus = async (req, res) => {
   try {
-    const { status } = req.body;
+    const { status, otp } = req.body;
     
     const validStatuses = ['REACHED_PLATFORM', 'LUGGAGE_PICKED', 'IN_TRANSIT', 'COMPLETED'];
     if (!validStatuses.includes(status)) {
@@ -339,6 +341,12 @@ exports.updateBookingStatus = async (req, res) => {
 
     if (!booking.porter || booking.porter.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ success: false, message: 'Not authorized to update this booking' });
+    }
+
+    if (status === 'LUGGAGE_PICKED') {
+      if (!otp || booking.otp !== otp) {
+        return res.status(400).json({ success: false, message: 'Invalid or missing OTP. Please ask the passenger for the 4-digit PIN.' });
+      }
     }
 
     booking.status = status;

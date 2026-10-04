@@ -83,7 +83,7 @@ const EarningsTab = () => {
           </div>
         </div>
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center">
-          <div className="bg-blue-100 p-2 rounded-full mr-3 text-blue-600"><TrendingUp size={20}/></div>
+          <div className="bg-red-100 p-2 rounded-full mr-3 text-red-600"><TrendingUp size={20}/></div>
           <div>
             <p className="text-xs text-gray-500">Avg Rating</p>
             <p className="font-bold text-lg">

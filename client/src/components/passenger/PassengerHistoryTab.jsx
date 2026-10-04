@@ -34,7 +34,7 @@ const PassengerHistoryTab = () => {
   });
 
   if (isLoading) {
-    return <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
+    return <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div></div>;
   }
 
   return (
@@ -47,7 +47,7 @@ const PassengerHistoryTab = () => {
           <button 
             key={tab}
             onClick={() => setFilter(tab)}
-            className={`flex-1 py-2 text-sm font-bold rounded-md transition-colors ${filter === tab ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-50'}`}
+            className={`flex-1 py-2 text-sm font-bold rounded-md transition-colors ${filter === tab ? 'bg-red-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-50'}`}
           >
             {tab.charAt(0) + tab.slice(1).toLowerCase()}
           </button>
@@ -72,7 +72,7 @@ const PassengerHistoryTab = () => {
                   <span className={`inline-block px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider mb-2 ${
                     booking.status === 'COMPLETED' ? 'bg-green-50 text-green-600' :
                     booking.status === 'CANCELLED' ? 'bg-red-50 text-red-600' :
-                    'bg-blue-50 text-blue-600'
+                    'bg-red-50 text-red-600'
                   }`}>
                     {booking.status.replace('_', ' ')}
                   </span>
@@ -115,7 +115,7 @@ const PassengerHistoryTab = () => {
                       <AlertTriangle size={14} className="mr-1" /> Complaint
                     </button>
                   )}
-                  <button className="text-blue-600 font-bold flex items-center hover:text-blue-800 transition-colors">
+                  <button className="text-red-600 font-bold flex items-center hover:text-red-800 transition-colors">
                     Details <ArrowUpRight size={16} className="ml-1" />
                   </button>
                 </div>

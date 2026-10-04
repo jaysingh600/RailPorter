@@ -30,6 +30,7 @@ const BookingSchema = new mongoose.Schema({
     finalTotal: { type: Number }
   },
   
+  otp: { type: String },
   status: { 
     type: String, 
     enum: ['REQUESTED', 'ACCEPTED', 'REACHED_PLATFORM', 'LUGGAGE_PICKED', 'IN_TRANSIT', 'COMPLETED', 'CANCELLED', 'EXPIRED', 'REJECTED'], 

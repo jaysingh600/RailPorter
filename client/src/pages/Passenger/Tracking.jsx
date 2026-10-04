@@ -168,9 +168,12 @@ const Tracking = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">{booking.porter?.name || 'Assigned Porter'}</h3>
-                  <div className="text-xs text-[#38A169] font-medium flex items-center mt-0.5">
+                  <div className="text-xs text-[#38A169] font-medium flex items-center mt-0.5 mb-1">
                     ✓ Verified Porter <span className="mx-1">•</span> ⭐ 4.7
                   </div>
+                  {booking.porter?.phone && (
+                    <p className="text-sm text-gray-600 font-medium">📞 {booking.porter.phone}</p>
+                  )}
                 </div>
               </div>
               
@@ -178,9 +181,15 @@ const Tracking = () => {
                 <button className="bg-blue-50 text-blue-600 p-2 rounded-full hover:bg-blue-100 transition">
                   <MessageSquare size={20} />
                 </button>
-                <button className="bg-green-50 text-green-600 p-2 rounded-full hover:bg-green-100 transition">
-                  <Phone size={20} />
-                </button>
+                {booking.porter?.phone ? (
+                  <a href={`tel:${booking.porter.phone}`} className="bg-green-50 text-green-600 p-2 rounded-full hover:bg-green-100 transition inline-block">
+                    <Phone size={20} />
+                  </a>
+                ) : (
+                  <button className="bg-gray-50 text-gray-400 p-2 rounded-full cursor-not-allowed inline-block">
+                    <Phone size={20} />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -204,7 +213,13 @@ const Tracking = () => {
         <div className="space-y-4">
           
           {/* Timeline */}
-          <div className="bg-[#0B192C] text-white p-6 rounded-xl shadow-md">
+          <div className="bg-[#0B192C] text-white p-6 rounded-xl shadow-md relative">
+            {booking.otp && ['REQUESTED', 'ACCEPTED', 'REACHED_PLATFORM'].includes(liveStatus) && (
+              <div className="absolute top-4 right-4 bg-red-600 px-3 py-1.5 rounded-lg text-center shadow-lg border border-red-500">
+                <span className="text-[10px] uppercase font-bold text-red-200 block mb-0.5 leading-none">Journey OTP</span>
+                <span className="text-xl font-mono font-bold tracking-widest leading-none">{booking.otp}</span>
+              </div>
+            )}
             <h3 className="font-bold mb-6 text-lg tracking-wide">Booking Status</h3>
             <div className="space-y-5">
               {STATUS_FLOW.map((statusItem, idx) => {

@@ -76,9 +76,9 @@ const PassengerProfileTab = () => {
       {/* My Stats Section */}
       {analytics && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl text-center">
-            <p className="text-blue-600 text-xs font-bold uppercase tracking-wider mb-1">Total Bookings</p>
-            <p className="text-2xl font-bold text-blue-900">{analytics.bookings.total}</p>
+          <div className="bg-red-50 border border-red-100 p-4 rounded-xl text-center">
+            <p className="text-red-600 text-xs font-bold uppercase tracking-wider mb-1">Total Bookings</p>
+            <p className="text-2xl font-bold text-red-900">{analytics.bookings.total}</p>
           </div>
           <div className="bg-green-50 border border-green-100 p-4 rounded-xl text-center">
             <p className="text-green-600 text-xs font-bold uppercase tracking-wider mb-1">Completed</p>
@@ -102,9 +102,9 @@ const PassengerProfileTab = () => {
         <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
           <h3 className="font-bold text-gray-800">Personal Information</h3>
           {isEditing ? (
-            <button onClick={handleSave} className="text-blue-600 flex items-center font-bold text-sm bg-blue-50 px-3 py-1 rounded-full"><Save size={14} className="mr-1"/> Save</button>
+            <button onClick={handleSave} className="text-red-600 flex items-center font-bold text-sm bg-red-50 px-3 py-1 rounded-full"><Save size={14} className="mr-1"/> Save</button>
           ) : (
-            <button onClick={() => setIsEditing(true)} className="text-gray-500 hover:text-blue-600 flex items-center font-bold text-sm"><Edit3 size={14} className="mr-1"/> Edit</button>
+            <button onClick={() => setIsEditing(true)} className="text-gray-500 hover:text-red-600 flex items-center font-bold text-sm"><Edit3 size={14} className="mr-1"/> Edit</button>
           )}
         </div>
         <div className="p-6 space-y-4">
@@ -141,7 +141,7 @@ const PassengerProfileTab = () => {
           <h3 className="font-bold text-gray-800">My Complaints</h3>
           <p className="text-xs text-gray-500">Track your dispute tickets</p>
         </div>
-        <div className="text-blue-600 bg-blue-50 p-2 rounded-full">
+        <div className="text-red-600 bg-red-50 p-2 rounded-full">
           <AlertTriangle size={18} />
         </div>
       </Link>
