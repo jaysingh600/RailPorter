@@ -150,7 +150,8 @@ exports.getEmergencyById = async (req, res) => {
 // @access  Private
 exports.getBookingEmergencies = async (req, res) => {
   try {
-    const booking = await Booking.findById(req.params.bookingId);
+    const bookingId = req.params.bookingId || req.params.id;
+    const booking = await Booking.findById(bookingId);
     if (!booking) return res.status(404).json({ success: false, message: 'Booking not found' });
 
     const isPassenger = booking.passenger.toString() === req.user.id;
@@ -161,7 +162,7 @@ exports.getBookingEmergencies = async (req, res) => {
       return res.status(403).json({ success: false, message: 'Not authorized' });
     }
 
-    const events = await EmergencyEvent.find({ booking: req.params.bookingId }).sort('-createdAt');
+    const events = await EmergencyEvent.find({ booking: bookingId }).sort('-createdAt');
     res.status(200).json({ success: true, data: events });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
